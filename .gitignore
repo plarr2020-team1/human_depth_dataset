@@ -1,0 +1,4 @@
+data/*
+*.pickle
+.idea/
+.ipynb_checkpoints/
