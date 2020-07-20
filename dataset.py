@@ -8,24 +8,34 @@ data_root = "./data/val/"
 
 class KittiHumanDepthDataset(Dataset):
     def __init__(self, scenes_filename):
-        self.scenes = []
+        scenes = []
         with open(scenes_filename) as f:
-            scenes = f.read().splitlines()
+            lines = f.read().splitlines()
 
-        for scene in scenes:
-            self.scenes.append(scene.split('/'))
+        for line in lines:
+            scenes.append(line.split('/'))
+
+        self.rgb_files = []
+        self.depth_files = []
+
+        for item in scenes:
+            rgb_file = os.path.join(data_root, 'raw', item[0] + '_sync',
+                                    'image_02', 'data', item[1])
+            depth_file = os.path.join(data_root, 'gt', item[0] + '_sync',
+                                      'proj_depth', 'groundtruth', 'image_02',
+                                      item[1])
+
+            if os.path.isfile(rgb_file) and os.path.isfile(depth_file):
+                self.rgb_files.append(rgb_file)
+                self.depth_files.append(depth_file)
+
+    def __len__(self):
+        return len(self.rgb_files)
 
     def __getitem__(self, idx):
-        rgb_file = os.path.join(data_root, 'raw',
-                                self.scenes[idx][0] + '_sync',
-                                'image_02', 'data', self.scenes[idx][1])
 
-        depth_file = os.path.join(data_root, 'gt',
-                                  self.scenes[idx][0] + '_sync', 'proj_depth',
-                                  'groundtruth', 'image_02',
-                                  self.scenes[idx][1])
-        rgb_im = pil.open(rgb_file)
+        rgb_im = pil.open(self.rgb_files[idx])
 
-        depth = cv2.imread(depth_file, -1) / 255.
+        depth = cv2.imread(self.depth_files[idx], -1) / 255.
 
         return rgb_im, depth
