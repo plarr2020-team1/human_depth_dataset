@@ -1,12 +1,8 @@
 from torch.utils.data import Dataset
-import PIL.Image as pil
 import cv2
 import os.path
 
-data_root = "./data/val/"
-
-
-class KittiHumanDepthDataset(Dataset):
+class KittiHumanDepthDataset(Dataset, data_root):
     def __init__(self, scenes_filename):
         scenes = []
         with open(scenes_filename) as f:
@@ -34,7 +30,7 @@ class KittiHumanDepthDataset(Dataset):
 
     def __getitem__(self, idx):
 
-        rgb_im = pil.open(self.rgb_files[idx])
+        rgb_im = cv2.imread(self.rgb_files[idx])
 
         depth = cv2.imread(self.depth_files[idx], -1) / 255.
 
