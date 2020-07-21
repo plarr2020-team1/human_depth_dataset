@@ -2,8 +2,8 @@ from torch.utils.data import Dataset
 import cv2
 import os.path
 
-class KittiHumanDepthDataset(Dataset, data_root):
-    def __init__(self, scenes_filename):
+class KittiHumanDepthDataset(Dataset):
+    def __init__(self, scenes_filename, data_root):
         scenes = []
         with open(scenes_filename) as f:
             lines = f.read().splitlines()
