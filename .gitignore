@@ -1,4 +1,5 @@
-data/val/
+kitti/val/
+rgbd/*
 *.pickle
 .idea/
 .ipynb_checkpoints/

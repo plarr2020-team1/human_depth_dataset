@@ -1,9 +1,12 @@
 from torch.utils.data import Dataset
 import cv2
 import os.path
+import PIL.Image as pil
+import numpy as np
+
 
 class KittiHumanDepthDataset(Dataset):
-    def __init__(self, scenes_filename, data_root):
+    def __init__(self, scenes_filename, data_root='../data/kitti/val/'):
         scenes = []
         with open(scenes_filename) as f:
             lines = f.read().splitlines()
@@ -35,3 +38,31 @@ class KittiHumanDepthDataset(Dataset):
         depth = cv2.imread(self.depth_files[idx], -1) / 255.
 
         return rgb_im, depth
+
+
+class RGBDPeopleDataset(Dataset):
+    def __init__(self, data_root='../data/rgbd/'):
+        rgb_dir = 'rgb'
+        depth_dir = 'depth'
+
+        self.rgb_files = [os.path.join(data_root, rgb_dir, filename) for filename in
+                     os.listdir(os.path.join(data_root, rgb_dir))]
+
+        self.depth_files = [os.path.join(data_root, depth_dir, filename) for
+                       filename in
+                       os.listdir(os.path.join(data_root, depth_dir))]
+
+    def __len__(self):
+        return len(self.rgb_files)
+
+    def __getitem__(self, idx):
+        rgb_im = pil.open(self.rgb_files[idx]).rotate(90)
+
+        depth = cv2.imread(self.depth_files[idx], -1).newbyteorder()
+
+        # According to the dataset paper: http://www2.informatik.uni-freiburg.de/~spinello/spinelloIROS11.pdf
+        depth = 8 * 0.075 * 594.2 / (1084 - depth)
+        depth = np.rot90(depth)
+
+        return rgb_im, depth
+    
