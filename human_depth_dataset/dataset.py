@@ -37,7 +37,9 @@ class KittiHumanDepthDataset(Dataset):
 
         depth = cv2.imread(self.depth_files[idx], -1) / 255.
 
-        return rgb_im, depth
+        file = self.rgb_files[0].split('/')[-6] + '/' + self.rgb_files[0].split('/')[-1]
+
+        return rgb_im, depth, file
 
 
 class RGBDPeopleDataset(Dataset):
@@ -69,4 +71,4 @@ class RGBDPeopleDataset(Dataset):
         depth = 8 * 0.075 * 594.2 / (1084 - depth)
         depth = np.rot90(depth)
 
-        return rgb_im, depth
+        return rgb_im, depth, self.rgb_files[idx].split('/')[-1]
