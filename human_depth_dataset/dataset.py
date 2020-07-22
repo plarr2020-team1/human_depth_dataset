@@ -59,7 +59,9 @@ class RGBDPeopleDataset(Dataset):
         return len(self.rgb_files)
 
     def __getitem__(self, idx):
-        rgb_im = pil.open(self.rgb_files[idx]).rotate(90)
+        rgb_np = np.rot90(cv2.imread(self.rgb_files[idx]))
+        rgb_np = cv2.cvtColor(rgb_np, cv2.COLOR_BGR2RGB)
+        rgb_im = pil.fromarray(rgb_np)
 
         depth = cv2.imread(self.depth_files[idx], -1).newbyteorder()
 
