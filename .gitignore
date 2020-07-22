@@ -1,5 +1,10 @@
-kitti/val/
-rgbd/*
+__pycache__/
+*.pkl
+*.egg-info
+*.tar.gz
+*.zip
+data/kitti/val/
+data/rgbd/*
 *.pickle
 .idea/
 .ipynb_checkpoints/
