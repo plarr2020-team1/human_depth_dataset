@@ -1,8 +1,10 @@
-# KITTI Human Dataset
+# Human Depth Dataset
 
 This repository provides some tools for analyzing and 
-extracting subsets from the KITTI dataset with emphasis on pedestrians
+extracting subsets the KITTI dataset with emphasis on pedestrians
 and depth data.
+
+This also provides a convenient dataloader for the [RGB-D people dataset](https://github.com/plarr2020-team1/human_depth_dataset).
 
 ## Usage
 ### KITTI

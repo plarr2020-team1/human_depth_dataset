@@ -65,4 +65,3 @@ class RGBDPeopleDataset(Dataset):
         depth = np.rot90(depth)
 
         return rgb_im, depth
-    
