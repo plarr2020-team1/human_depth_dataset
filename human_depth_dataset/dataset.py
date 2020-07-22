@@ -33,13 +33,13 @@ class KittiHumanDepthDataset(Dataset):
 
     def __getitem__(self, idx):
 
-        rgb_im = cv2.imread(self.rgb_files[idx])
+        rgb_im = pil.open(self.rgb_files[idx])
 
         depth = cv2.imread(self.depth_files[idx], -1) / 255.
 
         file = self.rgb_files[0].split('/')[-6] + '/' + self.rgb_files[0].split('/')[-1]
 
-        return rgb_im, depth, file
+        return {'rgb': rgb_im, 'depth': depth, 'index': file}
 
 
 class RGBDPeopleDataset(Dataset):
@@ -71,4 +71,4 @@ class RGBDPeopleDataset(Dataset):
         depth = 8 * 0.075 * 594.2 / (1084 - depth)
         depth = np.rot90(depth)
 
-        return rgb_im, depth, self.rgb_files[idx].split('/')[-1]
+        return {'rgb': rgb_im, 'depth': depth, 'index': self.rgb_files[idx].split('/')[-1]}
