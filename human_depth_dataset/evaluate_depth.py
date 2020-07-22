@@ -29,7 +29,7 @@ def evaluateDepths(predDepths, gtDepths, printInfo=False):
         pass
 
     return [rel, rel_sqr, log10, rmse, rmse_log, accuracy_1, accuracy_2,
-            accuracy_3]
+            accuracy_3], numPixels
 
 
 def calculateTrueErrors(errors, pixels):
