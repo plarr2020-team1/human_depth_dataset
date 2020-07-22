@@ -45,12 +45,15 @@ class RGBDPeopleDataset(Dataset):
         rgb_dir = 'rgb'
         depth_dir = 'depth'
 
-        self.rgb_files = [os.path.join(data_root, rgb_dir, filename) for filename in
-                     os.listdir(os.path.join(data_root, rgb_dir))]
+        self.rgb_files = [os.path.join(data_root, rgb_dir, filename) for
+                          filename in
+                          os.listdir(os.path.join(data_root, rgb_dir))]
 
-        self.depth_files = [os.path.join(data_root, depth_dir, filename) for
-                       filename in
-                       os.listdir(os.path.join(data_root, depth_dir))]
+        self.depth_files = []
+        for path in self.rgb_files:
+            filename = os.path.splitext(os.path.basename(path))[0]
+            self.depth_files.append(
+                os.path.join(data_root, depth_dir, filename+'.pgm'))
 
     def __len__(self):
         return len(self.rgb_files)
