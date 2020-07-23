@@ -54,7 +54,7 @@ class RGBDPeopleDataset(Dataset):
 
         self.rgb_files = [os.path.join(data_root, rgb_dir, filename) for
                           filename in
-                          os.listdir(os.path.join(data_root, rgb_dir))]
+                          os.listdir(os.path.join(data_root, rgb_dir)) if 'combined' not in filename]
 
         self.depth_files = []
         for path in self.rgb_files:
